@@ -96,75 +96,61 @@
         require_once "config.php";
         
         // Attempt select query execution
-        $quantity = 100 ;
+        
+        $total_alloc= 0;
+        $total_qty= 0;
+        $total_bal= 0;
         
         $sql = "SELECT * FROM drugs";
         if($result = mysqli_query($link, $sql))
         {
-           if(mysqli_num_rows($result) > 0)
+            if(mysqli_num_rows($result) > 0)
             {
              
              while($row = mysqli_fetch_array($result))
                {
-            echo "<tr> ";
-                    echo  '<td class="p5 bl bt cac">'. $row['id'] .'</td>';
-                    echo  '<td class="p5 bl bt">'. $row['code'] .'</td> ';
-                    echo  '<td class="p5 bl bt">'. $row['name'] .'</td>';
-                    echo  '<td class="p5 bl bt cac">'. $row['batch'] .'</td>';
-                    echo  '<td class="p5 bl bt cac">'. $row['expiry_date'] .'</td>';
-                    echo  '<td class="p5 bl bt">'. $row['branch'] .'</td>';
-                    echo  '<td class="p5 bl bt cac">'. $row['quantity'] .'</td>';
-                    echo  '<td class="p5 bl bt cac">'. $row['allocated'] .'</td>';
-                    echo  '<td class="p5 bl bt cac">'. $row['quantity']-$row['allocated'] .'</td>';
-                    echo  '<td class="c025 p5 bl bt br cac fn14 cp">'; 
-                    echo '<a href="read.php?id='. $row['id'] .'" class="mr-3" title="View Record"  data-toggle="tooltip"><i class="fa fa-eye c011 m5" aria-hidden="true"></i></a>';
-                    echo '<a href="update.php?id='. $row['id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><i class="fa fa-edit c012 m5" aria-hidden="true"></i></a>';
-                    echo '<a href="delete.php?id='. $row['id'] .'" class="mr-3" title="Delete Record" data-toggle="tooltip"><i class="fa fa-trash c013 m5" aria-hidden="true"></i></a>';                            
-                    echo "</td> ";
-            echo "</tr> ";
-            echo "<tr>";
-	            }
-                // Free result set  array_sum($allocated)
-                           mysqli_free_result($result);
+
+                  $total_qty += $row['quantity'];
+                  $total_alloc += $row['allocated'];
+                  $total_bal += $row['quantity']-$row['allocated'];
+            echo '<tr> 
+                    <td class="p5 bl bt cac">'. $row['id'] .'</td>
+                    <td class="p5 bl bt">'. $row['code'] .'</td>
+                    <td class="p5 bl bt">'. $row['name'] .'</td>
+                    <td class="p5 bl bt cac">'. $row['batch'] .'</td>
+                    <td class="p5 bl bt cac">'. $row['expiry_date'] .'</td>
+                    <td class="p5 bl bt">'. $row['branch'] .'</td>
+                    <td class="p5 bl bt cac">'. $row['quantity'] .'</td>
+                    <td class="p5 bl bt cac">'. $row['allocated'] .'</td>
+                    <td class="p5 bl bt cac">'. $row['quantity']-$row['allocated'] .'</td>
+                    <td class="c025 p5 bl bt br cac fn14 cp">
+                    <a href="read.php?id='. $row['id'] .'" class="mr-3" title="View Record"  data-toggle="tooltip"><i class="fa fa-eye c011 m5" aria-hidden="true"></i></a>
+                    <a href="update.php?id='. $row['id'] .'" class="mr-3" title="Update Record" data-toggle="tooltip"><i class="fa fa-edit c012 m5" aria-hidden="true"></i></a>
+                    <a href="delete.php?id='. $row['id'] .'" class="mr-3" title="Delete Record" data-toggle="tooltip"><i class="fa fa-trash c013 m5" aria-hidden="true"></i></a>                            
+                    </td>
+                </tr>';             
+                }                    
+          echo '<tr>
+                    <td colspan="6" class="cfw p5 bl bt car">TOTAL </td>
+                    <td class="cfw p5 bl bt cac">'.$total_qty.'</td>
+                    <td class="cfw p5 bl bt cac">'.$total_alloc.'</td>
+                    <td class="cfw p5 bl bt cac">'.$total_bal.'</td>
+                    <td class="cfw p5 bl bt br car"></td>
+                </tr>
+                <td colspan="11" class="bt"></td>
+            </table>';    
+         // Free result set  
+           mysqli_free_result($result);
             } else
             {
                 echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
             }
         } else{
         echo "Oops! Something went wrong. Please try again later.";
-        }
-              	     
-        $total_alloc= 0;
-        $total_qty= 0;
-        $total_bal= 0;
-        $sql = "SELECT * FROM drugs";
-        if($result = mysqli_query($link, $sql))
-        {
-            if(mysqli_num_rows($result) > 0)
-            {
-                while($row= mysqli_fetch_array($result))
-                {
-                  $total_qty += $row['quantity'];
-                  $total_alloc += $row['allocated'];
-                  $total_bal += $row['quantity']-$row['allocated'];
-                } 
-            }
         }    
-                echo '<td colspan="6" class="cfw p5 bl bt car">TOTAL </td>';
-                echo '<td class="cfw p5 bl bt cac">'.$total_qty.'</td>';
-                echo '<td class="cfw p5 bl bt cac">'.$total_alloc.'</td>';
-                echo '<td class="cfw p5 bl bt cac">'.$total_bal.'</td>';
-                echo '<td class="cfw p5 bl bt br car"></td>';
-            echo "</tr>";
-            echo '<td colspan="11" class="bt"></td>';
-        echo "</table>";    
-        
 
-
-    
-
-                    // Close connection
-                    mysqli_close($link);
+        // Close connection
+        mysqli_close($link);
     ?>
 
     </div>
