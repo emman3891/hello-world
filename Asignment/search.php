@@ -20,7 +20,7 @@
       if (count($results) > 0) { foreach ($results as $r) {
       
         printf("<div>".$n."-%s with code %s from %s branch were %s in total and %s drugs were issued </div>", $r["name"], $r["code"], $r["branch"], $r["quantity"], $r["allocated"]);
-            $n += $n;
+            $n = $n + 1;
       }} else { echo "No results found"; }
     }
     ?>
