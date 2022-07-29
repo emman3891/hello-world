@@ -17,7 +17,7 @@
             <tr>
                 <td class="cw30p bgC001 bb fn18 cac p5 textUC cfw">STOCK LIST</td>
                 <td class="cw70Wp car plr10">
-                    <a href="create.php" class="btn btn-success"><button class="bgC001 bn br5 ht25 plr10 p5 fn10 fnPoppins" name="saveupdate" type="submit"
+                    <a href="create.php"><button class="bgC001 bn br5 ht25 plr10 p5 fn10 fnPoppins" name="saveupdate" type="submit"
                         tabindex="7">Add</button></a>
                     <button onclick="window.print()" class="bgC001 bn br5 ht25 plr10 p5 fn10 fnPoppins" name="saveupdate" type="submit"
                         tabindex="7">Print</button>
